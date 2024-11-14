@@ -5,16 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SpiritBound Bot Management</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://alcdn.msauth.net/browser/2.19.0/js/msal-browser.min.js"></script>
+  <script src="authConfig.js"></script>
+  <script src="auth.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>Login to the SpiritBound Bot Management Portal</h1>
     <div class="login-options">
-      <button id="discordLoginButton">Login with Discord Account</button>
+      <button id="discordLoginButton" disabled>Login with Discord Account (Coming Soon)</button>
       <div class="or">OR</div>
       <input type="text" placeholder="Email Address" />
       <input type="password" placeholder="Password" />
-      <button id="signInButton">Sign in</button>
+      <button id="signInButton" onclick="signIn()">Sign in</button>
+      <p id="login-message"></p>
     </div>
   </div>
 </body>
