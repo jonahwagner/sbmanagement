@@ -1,4 +1,4 @@
-import { msalConfig, loginRequest } from './authConfig.js';
+import { msalConfig, loginRequest } from './authconfig.js';
 import { PublicClientApplication } from '@azure/msal-browser';
 
 const msalInstance = new PublicClientApplication(msalConfig);
