@@ -1,64 +1,42 @@
-// Import MSAL.js configuration
 const msalConfig = {
   auth: {
-    clientId: "YOUR_CLIENT_ID", // Replace with your Azure AD B2C App Registration's client ID
-    authority: "https://spiritbc.b2clogin.com/spiritbc.onmicrosoft.com/B2C_1_sbconnect", // Replace with your user flow's authority
-    redirectUri: "https://management.spiritbound.gg", // Replace with the URL Azure AD B2C will redirect to after login
+    clientId: "26e0f56c-0f41-4f2e-836d-bc317bbbcb6a", // Replace with your app's Client ID
+    authority: "https://spiritbc.b2clogin.com/spiritbc.onmicrosoft.com/B2C_1_sbconnect", // User flow endpoint
+    redirectUri: "https://management.spiritbound.gg", // Ensure this matches the Azure AD B2C app registration
+  },
+  cache: {
+    cacheLocation: "sessionStorage",
+    storeAuthStateInCookie: false,
   },
 };
 
-const loginRequest = {
-  scopes: ["openid", "profile", "email"], // You can customize scopes if needed
-};
-
-// Initialize the MSAL.js client
 const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-// Handle redirects after login
-msalInstance
-  .handleRedirectPromise()
-  .then((response) => {
-    if (response) {
-      console.log("Login successful:", response.account);
+async function signIn() {
+  try {
+    const loginResponse = await msalInstance.loginRedirect({
+      scopes: ["openid", "profile", "email"],
+    });
+    console.log("Login successful:", loginResponse);
 
-      // Store the user info in sessionStorage or localStorage if needed
-      sessionStorage.setItem("user", JSON.stringify(response.account));
-
-      // Redirect to the dashboard or home page
-      window.location.href = "/home.html";
-    } else {
-      console.log("No response detected. User not logged in yet.");
-    }
-  })
-  .catch((error) => {
+    // Redirect to home page after successful login
+    window.location.href = "home.html";
+  } catch (error) {
     console.error("Login failed:", error);
-    const loginMessage = document.getElementById("login-message");
-    loginMessage.textContent = "Login failed. Please try again.";
-    loginMessage.style.color = "red";
-  });
-
-// Sign-in function
-function signIn() {
-  msalInstance.loginRedirect(loginRequest);
-}
-
-// Sign-out function
-function signOut() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  if (user) {
-    msalInstance
-      .logoutRedirect({
-        account: msalInstance.getAccountByUsername(user.username),
-        postLogoutRedirectUri: "https://management.spiritbound.gg",
-      })
-      .then(() => {
-        console.log("Logout successful.");
-        sessionStorage.removeItem("user");
-      })
-      .catch((error) => {
-        console.error("Logout failed:", error);
-      });
-  } else {
-    console.log("No user is logged in.");
   }
 }
+
+async function handleRedirect() {
+  const redirectResponse = await msalInstance.handleRedirectPromise();
+  if (redirectResponse) {
+    console.log("Redirect response received:", redirectResponse);
+
+    // Redirect to home page after successful login
+    window.location.href = "home.html";
+  } else {
+    console.log("No redirect response received");
+  }
+}
+
+// Handle redirect responses when the page loads
+handleRedirect();
