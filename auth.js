@@ -1,19 +1,14 @@
 const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-function signIn() {
-    msalInstance.loginPopup(loginRequest)
-        .then((loginResponse) => {
-            console.log("Login successful:", loginResponse);
-            window.location.href = "home.html";
-        })
-        .catch((error) => {
-            console.error("Login failed:", error);
-            alert("Login failed. Please try again.");
+async function signIn() {
+    try {
+        const loginResponse = await msalInstance.loginPopup({
+            scopes: ["openid", "offline_access"],
         });
-}
-
-window.onload = () => {
-    if (msalInstance.getAllAccounts().length > 0) {
-        window.location.href = "home.html";
+        console.log("Login Successful", loginResponse);
+        window.location.href = "/home.html"; // Redirect after successful login
+    } catch (error) {
+        console.error("Login failed:", error);
+        alert("Login failed. Please try again.");
     }
-};
+}
