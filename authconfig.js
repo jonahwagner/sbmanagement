@@ -1,15 +1,11 @@
 const msalConfig = {
     auth: {
-        clientId: "26e0f56c-0f41-4f2e-836d-bc317bbbcb6a", // Replace with your Azure AD B2C client ID
-        authority: "https://spiritbc.b2clogin.com/spiritbc.onmicrosoft.com/B2C_1_sbconnect", // Replace with your authority
-        redirectUri: "https://management.spiritbound.gg", // Your redirect URI
+        clientId: "26e0f56c-0f41-4f2e-836d-bc317bbbcb6a",
+        authority: "https://spiritbc.b2clogin.com/spiritbc.onmicrosoft.com/B2C_1_sbconnect", // Ensure this is your user flow
+        redirectUri: "https://management.spiritbound.gg", // Match with your Azure App's redirect URI
     },
     cache: {
-        cacheLocation: "localStorage", // Configure where your cache will be stored
-        storeAuthStateInCookie: true, // Set to "true" for IE11 or Edge
+        cacheLocation: "localStorage",
+        storeAuthStateInCookie: true,
     },
-};
-
-const loginRequest = {
-    scopes: ["openid", "offline_access"],
 };
