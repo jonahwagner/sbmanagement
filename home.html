@@ -3,44 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Center Home</title>
+  <title>SpiritBound Bot Management Portal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to the SpiritBound Admin Portal</h1>
-    <div class="dashboard">
-      <div class="card">
-        <h2>Chats Sent Today</h2>
-        <p id="chatsSent">Loading...</p>
-      </div>
-      <div class="card">
-        <h2>Punish Actions</h2>
-        <p id="punishActions">Loading...</p>
-      </div>
-      <div class="card">
-        <h2>Kicks/Bans (Monthly)</h2>
-        <p id="kicksBans">Loading...</p>
-      </div>
-    </div>
-    <button onclick="signOut()">Sign out</button>
+  <h1>Welcome to SpiritBound Bot Management</h1>
+  <div class="dashboard">
+    <h2>User Data</h2>
+    <p>Here’s your dashboard with bot management details.</p>
+    <!-- You can dynamically load data here -->
   </div>
-
-  <script src="https://alcdn.msauth.net/browser/2.19.0/js/msal-browser.min.js"></script>
-  <script src="authConfig.js"></script>
-  <script>
-    // Simulate fetching data from MongoDB
-    document.getElementById("chatsSent").innerText = "24";
-    document.getElementById("punishActions").innerText = "12";
-    document.getElementById("kicksBans").innerText = "8";
-
-    function signOut() {
-      msalInstance.logoutPopup().then(() => {
-        window.location.href = "/";
-      }).catch((error) => {
-        console.error("Logout error:", error);
-      });
-    }
-  </script>
 </body>
 </html>
