@@ -1,42 +1,27 @@
-const msalConfig = {
-  auth: {
-    clientId: "26e0f56c-0f41-4f2e-836d-bc317bbbcb6a", // Replace with your app's Client ID
-    authority: "https://spiritbc.b2clogin.com/spiritbc.onmicrosoft.com/B2C_1_sbconnect", // User flow endpoint
-    redirectUri: "https://management.spiritbound.gg", // Ensure this matches the Azure AD B2C app registration
-  },
-  cache: {
-    cacheLocation: "sessionStorage",
-    storeAuthStateInCookie: false,
-  },
-};
-
 const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-async function signIn() {
-  try {
-    const loginResponse = await msalInstance.loginRedirect({
-      scopes: ["openid", "profile", "email"],
+function signIn() {
+  msalInstance.loginPopup(loginRequest)
+    .then((loginResponse) => {
+      console.log("Login successful:", loginResponse);
+
+      // Redirect to home.html after login
+      window.location.href = "home.html";
+    })
+    .catch((error) => {
+      console.error("Login failed:", error);
+      alert("Login failed. Please try again.");
     });
-    console.log("Login successful:", loginResponse);
+}
 
-    // Redirect to home page after successful login
-    window.location.href = "home.html";
-  } catch (error) {
-    console.error("Login failed:", error);
+// Check for a valid session or tokens in cache
+function checkAccount() {
+  const accounts = msalInstance.getAllAccounts();
+  if (accounts && accounts.length > 0) {
+    console.log("User is already logged in:", accounts[0]);
+    window.location.href = "home.html"; // Redirect to home.html if logged in
   }
 }
 
-async function handleRedirect() {
-  const redirectResponse = await msalInstance.handleRedirectPromise();
-  if (redirectResponse) {
-    console.log("Redirect response received:", redirectResponse);
-
-    // Redirect to home page after successful login
-    window.location.href = "home.html";
-  } else {
-    console.log("No redirect response received");
-  }
-}
-
-// Handle redirect responses when the page loads
-handleRedirect();
+// Automatically check account on page load
+window.onload = checkAccount;
