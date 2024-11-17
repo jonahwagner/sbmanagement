@@ -4,48 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SpiritBound Bot Management</title>
-  <link rel="stylesheet" href="style.css">
   <script src="https://alcdn.msauth.net/browser/2.19.0/js/msal-browser.min.js"></script>
   <script src="authConfig.js"></script>
   <script src="auth.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Login to the SpiritBound Bot Management Portal</h1>
-    <div class="login-options">
-      <button id="discordLoginButton" disabled>Login with Discord Account (Coming Soon)</button>
-      <div class="or">OR</div>
-      <input type="text" placeholder="Email Address" />
-      <input type="password" placeholder="Password" />
-      <button id="signInButton" onclick="signIn()">Sign in</button>
-      <button id="signUpButton" onclick="signUp()">Sign up</button>
-      <p id="login-message"></p>
-
-    </div>
+    <h1>SpiritBound Bot Management Portal</h1>
+    <button id="signInButton" onclick="signIn()">Sign in with Azure AD B2C</button>
   </div>
-
-  <script>
-    // Initialize MSAL instance
-    const msalInstance = new msal.PublicClientApplication({
-      auth: {
-        clientId: "YOUR_CLIENT_ID", // Replace with your Azure AD B2C App's client ID
-        authority: "https://spiritbc.b2clogin.com/spiritbc.onmicrosoft.com/B2C_1_sbconnect",
-        redirectUri: "https://management.spiritbound.gg", // Update with your app's redirect URI
-      },
-    });
-
-    function signIn() {
-      msalInstance.loginRedirect({
-        scopes: ["openid", "profile", "email"],
-      });
-    }
-
-    function signUp() {
-      msalInstance.loginRedirect({
-        scopes: ["openid", "profile", "email"],
-        authority: "https://spiritbc.b2clogin.com/spiritbc.onmicrosoft.com/B2C_1_sbconnect",
-      });
-    }
-  </script>
 </body>
 </html>
